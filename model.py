@@ -1,31 +1,20 @@
+from database import Base
+from typing import List
 import sqlalchemy
-from sqlalchemy.orm import mapper
-
-metadata = sqlalchemy.MetaData()
-
-users = sqlalchemy.Table(
-    "users",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.String, primary_key=True),
-    sqlalchemy.Column(
-        "name",
-        sqlalchemy.String,
-    ),
-    sqlalchemy.Column(
-        "email",
-        sqlalchemy.String,
-    ),
-    sqlalchemy.Column(
-        "password",
-        sqlalchemy.String,
-    ),
-)
+from sqlalchemy.orm import backref, mapper, relationship
 
 
-class User:
-    id: str
-    name: str
-    email: str
-    password: str
+class Ticket(Base):
+    __tablename__ = "tickets"
+    id: str = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
+    name: str = sqlalchemy.Column(sqlalchemy.String)
+    user_id: str = sqlalchemy.Column(sqlalchemy.ForeignKey("users.id"))
 
-mapper(User, users)
+
+class User(Base):
+    __tablename__ = "users"
+    id: str = sqlalchemy.Column(sqlalchemy.String, primary_key=True)
+    name: str = sqlalchemy.Column(sqlalchemy.String)
+    email: str = sqlalchemy.Column(sqlalchemy.String)
+    password: str = sqlalchemy.Column(sqlalchemy.String)
+    tickets: List[Ticket] = relationship("Ticket")

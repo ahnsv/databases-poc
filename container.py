@@ -1,3 +1,4 @@
+from database import SqlAlchemyDatabase
 import sqlalchemy
 import databases
 
@@ -14,4 +15,5 @@ class AppSetting(BaseSettings):
 class AppContainer(DeclarativeContainer):
     config = providers.Configuration()
     engine = providers.Singleton(sqlalchemy.create_engine, config.db_uri)
-    database_conn = providers.Singleton(databases.Database, config.db_uri) 
+    sqlalchemy_db = providers.Singleton(SqlAlchemyDatabase, engine=engine)
+    database_conn = providers.Singleton(databases.Database, config.db_uri)
