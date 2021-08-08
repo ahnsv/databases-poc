@@ -1,7 +1,9 @@
-from database import Base
 from typing import List
+
 import sqlalchemy
-from sqlalchemy.orm import backref, mapper, relationship
+from sqlalchemy.orm import relationship
+
+from database import Base
 
 
 class Ticket(Base):

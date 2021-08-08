@@ -1,11 +1,11 @@
-from database import SqlAlchemyDatabase
 import sqlalchemy
-import databases
-
 from dependency_injector import providers
 from dependency_injector.containers import DeclarativeContainer
 from pydantic import BaseSettings
 from pydantic.fields import Field
+
+import databases
+from database import SqlAlchemyDatabase
 
 
 class AppSetting(BaseSettings):

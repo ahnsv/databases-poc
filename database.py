@@ -1,9 +1,10 @@
 import logging
+from contextlib import contextmanager
 from typing import Callable, ContextManager
+
 from sqlalchemy import orm
 from sqlalchemy.engine.base import Engine
 from sqlalchemy.ext.declarative import declarative_base
-from contextlib import AbstractContextManager, contextmanager
 
 Base = declarative_base()
 logger = logging.getLogger(__name__)

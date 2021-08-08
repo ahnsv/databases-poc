@@ -1,10 +1,10 @@
-from sqlalchemy.orm.scoping import ScopedSession
-from sqlalchemy.sql.expression import delete, insert, select, update
-from container import AppContainer, AppSetting
-from model import Ticket, User
-from databases.core import Database
-from dependency_injector.wiring import Provide, inject
 from contextlib import asynccontextmanager
+
+from dependency_injector.wiring import Provide, inject
+
+from container import AppContainer, AppSetting
+from databases.core import Database
+from sql import SqlFile
 
 
 @asynccontextmanager
@@ -20,7 +20,7 @@ async def main(
     database_conn: Database = Provide[AppContainer.database_conn],
 ):
     async with async_session(conn=database_conn):
-        with open("sql/fetch_all_users_inner_joined.sql") as sql:
+        with open(SqlFile.ALL_USERS_INNER_JOINED) as sql:
             [*found_user] = await database_conn.fetch_all(
                 query=sql.read(), values={"id": "0004"}
             )
