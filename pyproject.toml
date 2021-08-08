@@ -18,6 +18,7 @@ pytest = "^6.2.4"
 sqlfluff = "^0.6.2"
 isort = "^5.9.3"
 pycln = "^0.0.5"
+pre-commit = "^2.14.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
