@@ -13,11 +13,8 @@ async def main(
 ):
     await database_conn.connect()
 
-    q = """
-    select u.id, u.name, t.name from users u 
-    inner join tickets as t on t.user_id = u.id 
-    """    
-    [*found_user]  = await database_conn.fetch_all(query=q)
+    with open("sql/fetch_all_users_inner_joined.sql") as sql:
+        [*found_user]  = await database_conn.fetch_all(query=sql.read(), values={"id": "0004"})
     print(found_user)
 
     await database_conn.disconnect()
