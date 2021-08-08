@@ -4,20 +4,27 @@ from container import AppContainer, AppSetting
 from model import Ticket, User
 from databases.core import Database
 from dependency_injector.wiring import Provide, inject
-from sqlalchemy.exc import IntegrityError
+from contextlib import asynccontextmanager
+
+
+@asynccontextmanager
+async def async_session(conn: Database):
+    try:
+        yield await conn.connect()
+    finally:
+        await conn.disconnect()
 
 
 @inject
 async def main(
     database_conn: Database = Provide[AppContainer.database_conn],
 ):
-    await database_conn.connect()
-
-    with open("sql/fetch_all_users_inner_joined.sql") as sql:
-        [*found_user]  = await database_conn.fetch_all(query=sql.read(), values={"id": "0004"})
-    print(found_user)
-
-    await database_conn.disconnect()
+    async with async_session(conn=database_conn):
+        with open("sql/fetch_all_users_inner_joined.sql") as sql:
+            [*found_user] = await database_conn.fetch_all(
+                query=sql.read(), values={"id": "0004"}
+            )
+        print(found_user)
 
 
 if __name__ == "__main__":
