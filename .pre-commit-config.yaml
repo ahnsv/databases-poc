@@ -23,3 +23,8 @@ repos:
       hooks:
           - id: pycln
             args: [--config=server/pyproject.toml]
+    - repo: https://github.com/sqlfluff/sqlfluff
+      rev: 0.6.2
+      hooks:
+          - id: sqlfluff-lint
+          - id: sqlfluff-fix
