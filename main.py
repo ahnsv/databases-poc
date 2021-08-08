@@ -3,6 +3,7 @@ from dependency_injector.wiring import Provide, inject
 from sqlalchemy.engine.base import Engine
 from container import AppContainer, AppSetting
 from model import metadata, users
+from sqlalchemy.exc import IntegrityError
 
 
 @inject
@@ -14,9 +15,16 @@ async def main(
 
     await database_conn.connect()
 
-    query = users.insert()
-    values = {"id": "test3", "name": "humphrey"}
-    await database_conn.execute(query=query, values=values)
+    async with database_conn.transaction():
+        try:
+            query = users.insert()
+            values = {"id": "test3", "name": "humphrey"}
+            await database_conn.execute(query=query, values=values)
+        except (IntegrityError, Exception) as err:
+            print(err)
+
+
+    await database_conn.disconnect()
 
 
 if __name__ == "__main__":
