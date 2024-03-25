@@ -1,9 +1,9 @@
 from contextlib import asynccontextmanager
 
+from databases.core import Database
 from dependency_injector.wiring import Provide, inject
 
 from container import AppContainer, AppSetting
-from databases.core import Database
 from sql import SqlFile
 
 
@@ -21,9 +21,7 @@ async def main(
 ):
     async with async_session(conn=database_conn):
         with open(SqlFile.ALL_USERS_INNER_JOINED) as sql:
-            [*found_user] = await database_conn.fetch_all(
-                query=sql.read(), values={"id": "0004"}
-            )
+            [*found_user] = await database_conn.fetch_all(query=sql.read(), values={"id": "0004"})
         print(found_user)
 
 
