@@ -2,29 +2,29 @@
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v3.2.0
+      rev: v5.0.0
       hooks:
           - id: trailing-whitespace
           - id: end-of-file-fixer
           - id: check-yaml
           - id: check-added-large-files
     - repo: https://github.com/psf/black
-      rev: 21.7b0
+      rev: 24.10.0
       hooks:
           - id: black
             args: ["-l", "119"]
     - repo: https://github.com/PyCQA/isort
-      rev: 5.8.0
+      rev: 5.13.2
       hooks:
           - id: isort
             args: ["--profile", "black"]
     - repo: https://github.com/hadialqattan/pycln
-      rev: v0.0.5
+      rev: v2.4.0
       hooks:
           - id: pycln
             args: [--config=server/pyproject.toml]
     - repo: https://github.com/sqlfluff/sqlfluff
-      rev: 0.6.2
+      rev: 3.2.4
       hooks:
           - id: sqlfluff-lint
           - id: sqlfluff-fix
